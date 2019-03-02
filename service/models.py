@@ -21,7 +21,7 @@ class Demand(models.Model):
 		super(Demand, self).save(*args, **kwargs)
 
 class Supply(models.Model):
-	donor = models.ForeignKey(User, on_delete=models.CASCADE)
+	donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='med_donations')
 	address = models.TextField(max_length=100)
 	donated_on = models.DateField(auto_now_add=True)
 	location = models.PointField(null=True, blank=True)

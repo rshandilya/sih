@@ -1,32 +1,32 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
+
 
 {% block content %}
 <form method="post">
   {% csrf_token %} 
   
-  {{ user_form.non_field_errors|crispy }}
-    {{ user_form.first_name.errors|crispy }}
+  {{ user_form.non_field_errors}}
+    {{ user_form.first_name.errors}}
     <label for="{{ user_form.first_name.id_for_label }}">First Name:</label>
-    {{ user_form.first_name|crispy }}
+    {{ user_form.first_name }}
     <p>
-    {{ user_form.last_name.errors|crispy }}
+    {{ user_form.last_name.errors}}
     <label for="{{ user_form.last_name.id_for_label }}">Last Name:</label>
-    {{ user_form.last_name|crispy }}
+    {{ user_form.last_name }}
     </p>
     <p>
-    {{ user_form.username.errors|crispy }}
+    {{ user_form.username.errors}}
     <label for="{{ user_form.username.id_for_label }}">Username:</label>
-    {{ user_form.username|crispy }}
+    {{ user_form.username}}
     </p>
     <p>
-    {{ user_form.email.errors|crispy }}
+    {{ user_form.email.errors}}
     <label for="{{ user_form.email.id_for_label }}">Email:</label>
-    {{ user_form.email|crispy }}
+    {{ user_form.email}}
     </p>
 
-    {{contact_form|crispy}}
+    {{contact_form}}
 
   <button type="submit">Update</button>
 

@@ -12,7 +12,10 @@ class Drug(models.Model):
 	quantity = models.PositiveIntegerField(null=True, blank=True)
 	exp_date = models.DateField(help_text="dd/mm/yyyy",null=True,blank=True)
 	#description = models.TextField(blank=True,null=True
-	supply = models.ForeignKey(Supply,on_delete=models.CASCADE,null=True,blank=True)
+	supply = models.ForeignKey(Supply,
+		                       on_delete=models.CASCADE,
+		                       null=True,
+		                       blank=True)
 	demand = models.ForeignKey(Demand,on_delete=models.CASCADE,null=True,blank=True)
 	drug_stock = models.ForeignKey(DrugStock,on_delete=models.CASCADE,null=True,blank=True)
 

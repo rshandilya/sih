@@ -5,6 +5,7 @@ from .forms import ProfileForm , CustomUserChangeForm   # CHANGE
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from .models import Profile                          # CHANGE
+from service.models import Supply
 
 # Create your views here.
 
@@ -41,4 +42,14 @@ def edit_profile(request,id):
 	else:
 		user_form = CustomUserChangeForm(instance=request.user)
 		contact_form = ProfileForm(instance=request.user.profile)   # CHANGE
-	return render(request, 'account/edit_profile.html', {'user_form':user_form,'contact_form':contact_form})
+	return render(request, 
+		          'account/edit_profile.html', 
+		         {'user_form':user_form,
+		          'contact_form':contact_form})
+
+
+def donation_list(request):
+	sup = Supply.objects.filter(donor=request.user)
+	return render(request, 
+		          'account/donation_list.html',
+		          {'supply': sup})
