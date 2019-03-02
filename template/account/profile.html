@@ -13,6 +13,18 @@
  <br>
  <a href="{% url 'account:donations' %}">MY DONATIONS</a>
 
+{% if user.is_stocker %}
+<br>
+<a href="{% url 'service:create_stock' %}">Register as Stocker</a>
+{% endif %}
+<br>
+<a href="">MY STOCK</a>
+<br>
+<a href="">VOLUNTEER</a>
+<br>
+<a href="">FIND MEDICINE</a>
+
+
  {% block profile_content %}
  {% endblock %}
 

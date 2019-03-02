@@ -8,9 +8,8 @@
 	<h3>Enter The Detail</h3>
   {% csrf_token %} 
 
-  {{ drug_sform|crispy }}
+  {{ stock_form|crispy }}
 
 	<input type="submit" value="Save">
-  	<input type="hidden" name="next" value="{{ next }}">
 </form>
 {% endblock %}

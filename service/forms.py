@@ -2,10 +2,10 @@
 from django.contrib.gis import forms
 from .models import Supply, Demand , DrugStock
 
-class DrugStockerForm(forms.ModelForm):
+class DrugStockForm(forms.ModelForm):
 	class Meta:
 		model = DrugStock
-		fields = ['stocker_type','name','address',]
+		fields = ['name','address','stocker_type']
 	
 
 class SupplyForm(forms.Form):

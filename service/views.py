@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import SupplyForm 
-from .forms import DemandForm, DrugStockerForm
+from .forms import DemandForm, DrugStockForm
 from drugs.forms import DrugForm, DrugCategoryForm
 from .models import Supply
 
@@ -35,19 +35,22 @@ def donate_medicine(request):
 
 def drug_stock(request):
 	if not request.user.is_authenticated:
-		return render(request,'registration/login.html')
+		return redirect(reverse('login'))
 	else:
 		if request.method == "POST":
-			drug_sform = DrugStockerForm(request.POST)
-			if drug_sform.is_valid():
-				drug_sform.save()
-			return render(request,'home/services.html')
+			stock_form = DrugStockForm(request.POST)
+			if stock_form.is_valid():
+				stock_form.save(commit=False)
+				stock_form.instance.user = request.user
+				stock_form.save()
+				request.user.is_stocker = True
+				request.user.save()
+			return redirect(reverse('account:profile'))
 		else:
-			drug_sform = DrugStockerForm()
+			stock_form = DrugStockForm()
 		return render(request,
-			          'service/drug_stocker.html', 
-			          {'drug_sform': drug_sform,
-			           })
+			          'service/drug_stock.html', 
+			          {'stock_form': stock_form})
 
 
 
