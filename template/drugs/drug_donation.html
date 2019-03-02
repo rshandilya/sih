@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<form method="post">
+	<h3>Enter The Detail</h3>
+  {% csrf_token %} 
+
+  {{ drug_form|crispy }}
+  {{ supply_form|crispy }}
+
+	<input type="submit" value="Save">
+{% endblock %}

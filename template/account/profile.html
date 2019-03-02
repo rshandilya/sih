@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<p>This is Profile Page</p>
+ <b>Username:</b>
+ {{user.username}}
+<b> the Id of username is {{user.id}}</b>
+ <b><a href="{% url 'account:edit_profile' user.id %}">Edit Profile</a></b>
+{% endblock %}

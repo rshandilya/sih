@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+	<ul>
+		<li><a href="{% url 'drugs:donate_medicine' %}">Donate the medicine</a></li>
+		<li><a href="#">Monetary Help</a></li>
+		<li><a href="{% url 'service:drug_stock' %}">Drug Stock</a></li>
+		<li><a href="#">Transporter</a></li>
+	</ul>
+</div>
+
+{% endblock %}

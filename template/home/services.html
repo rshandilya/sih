@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Our Services</h1>
+<div>
+	<ul>
+		<li><a href="{% url 'service:buy_medicine' %}">See your nearby medical store</a></li>
+		<li><a href="#">Disposal of Medicine</a></li>
+		
+	</ul>
+</div>
+
+{% endblock %}
