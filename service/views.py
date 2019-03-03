@@ -4,7 +4,7 @@ from .forms import SupplyForm
 from .forms import DemandForm, DrugStockForm, AddressForm
 from .forms import AssignmentForm
 from drugs.forms import DrugForm, DrugCategoryForm
-from .models import Supply, DrugStock
+from .models import Supply, DrugStock, Assignment
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 import geocoder
@@ -63,34 +63,35 @@ def check_assignment(request):
 	if request.method == 'POST':
 		form = AddressForm(request.POST)
 		if form.is_valid():
-			address = form.cleaned_data['address']		
+			address = form.cleaned_data['address']
+			request.user.profile.temp_address = address
+			request.user.profile.save()		
 			g = geocoder.mapbox(address, key=MB_KEY)
 			p = Point(g.latlng[0],g.latlng[0], srid=4326)
 			supply = Supply.objects.annotate(distance=Distance('location', p)).order_by('distance')[0:]
 			stock = DrugStock.objects.annotate(distance=Distance('location', p)).order_by('distance')[0:]
-			sup = [(q.id, q.address) for q in supply] 
-			stock = [(q.id, q.address) for q in stock]
-			assign_form = AssignmentForm(sup, stock) 
-			context = {'supply': supply, 'stock': stock, 'form':assign_form}
-			return render(request, 'service/take_assignment.html', context )
+			context = {'supply': supply, 'stock': stock}
+			return render(request, 'service/check_assignment.html', context )
 	else:
 		form = AddressForm()
-	return render(request, 'service/check_assignment.html', {'form': form} )
+	return render(request, 'service/find_assignment.html', {'form': form} )
 
 
 def assign_volunteer(request):
-	form = AssignmentForm(request.POST)
-	if form.is_valid():
-		Assignment.objects.create(transporter=request.user,
-			                      source=form.claned_data['pick_point'],
-			                      dest = form.claned_data['drop_point'],
-			                      pick_date = form.claned_data['pick_date'],
-			                      drop_date = form.claned_data['drop_date']
-			                      )
-	return redirect(reverse('account:profile'))
+	if request.method == 'POST':
+		form = AssignmentForm(request.user,request.POST)
+		if form.is_valid():
+			sup = Supply.objects.get(id=form.cleaned_data['pick_point'])
+			stock = DrugStock.objects.get(id=form.cleaned_data['drop_point'])
+			Assignment.objects.create(transporter=request.user,
+				                      source=sup,
+				                      dest = stock,
+				                      pick_date = form.cleaned_data['pick_date'],
+				                      drop_date = form.cleaned_data['drop_date']
+				                      )
+			return redirect(reverse('account:profile'))
+	else:
+		form = AssignmentForm(request.user)
+	return render(request, 'service/take_assignment.html', {'form':form})
 
 	
-
-
-
-

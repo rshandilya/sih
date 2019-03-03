@@ -14,6 +14,7 @@ class Profile(models.Model):
     is_supplier = models.BooleanField(default=False)
     is_buyer = models.BooleanField(default=False)
     is_stocker = models.BooleanField(default=False)
+    temp_address = models.TextField(blank=True, null=True)
 
 
     def __str__(self):
