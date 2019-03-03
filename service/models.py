@@ -32,8 +32,6 @@ class Supply(models.Model):
 		super(Supply, self).save(*args, **kwargs)
 
 	
-
-
 class DrugStock(models.Model):
 
 	STYPE = (
@@ -51,4 +49,13 @@ class DrugStock(models.Model):
 		g = geocoder.mapbox(self.address, key=MAPBOX_KEY)
 		self.location = Point(g.latlng)
 		super(DrugStock, self).save(*args, **kwargs)
+
+
+class Assignment(models.Model):
+	transporter = models.ForeignKey(User, on_delete=models.CASCADE)
+	source = models.OneToOneField(Supply, on_delete=models.CASCADE)
+	dest = models.OneToOneField(DrugStock, on_delete=models.CASCADE)
+	pick_date = models.DateField()
+	drop_date = models.DateField()
+
 	

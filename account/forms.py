@@ -20,3 +20,7 @@ class ProfileForm(forms.ModelForm):     # CHANGE
 		model = Profile                 # CHANGE
 		fields = ['address','phone',]
 
+
+
+		
+		

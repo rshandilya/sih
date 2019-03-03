@@ -18,3 +18,12 @@ class DemandForm(forms.ModelForm):
 		model = Demand
 		fields = '__all__'
 
+
+class AddressForm(forms.Form):
+	address = forms.CharField(widget=forms.Textarea)
+
+
+
+
+
+
