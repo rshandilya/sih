@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h3>TAKE ASSIGNMENT</h3> 
+<form action="{% url 'service:assign_volunteer' %}" method="post">
+	
+  {% csrf_token %} 
+
+  {{form.as_p}}
+
+	<input type="submit" value="Save">
+</form>
+
+<h3>Available Medicine Nearby</h3>
+{% for s in supply %}
+<li>{{s.address}}</li>
+{% endfor %}
+<h3>Nearest Storage Point</h3>
+{% for s in stock %}
+<li>{{s.address}}</li>
+{% endfor %}
+{% endblock %}

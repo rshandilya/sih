@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import SupplyForm
 from .forms import DemandForm, DrugStockForm, AddressForm
+from .forms import AssignmentForm
 from drugs.forms import DrugForm, DrugCategoryForm
 from .models import Supply, DrugStock
 from django.contrib.gis.geos import Point
@@ -67,12 +68,27 @@ def check_assignment(request):
 			p = Point(g.latlng[0],g.latlng[0], srid=4326)
 			supply = Supply.objects.annotate(distance=Distance('location', p)).order_by('distance')[0:]
 			stock = DrugStock.objects.annotate(distance=Distance('location', p)).order_by('distance')[0:]
-			context = {'supply': supply, 'stock': stock, 'form': form}
-			return render(request, 'service/check_assignment.html', context )
+			sup = [(q.id, q.address) for q in supply] 
+			stock = [(q.id, q.address) for q in stock]
+			assign_form = AssignmentForm(sup, stock) 
+			context = {'supply': supply, 'stock': stock, 'form':assign_form}
+			return render(request, 'service/take_assignment.html', context )
 	else:
 		form = AddressForm()
-		context = {'form': form}
-	return render(request, 'service/check_assignment.html', context )
+	return render(request, 'service/check_assignment.html', {'form': form} )
+
+
+def assign_volunteer(request):
+	form = AssignmentForm(request.POST)
+	if form.is_valid():
+		Assignment.objects.create(transporter=request.user,
+			                      source=form.claned_data['pick_point'],
+			                      dest = form.claned_data['drop_point'],
+			                      pick_date = form.claned_data['pick_date'],
+			                      drop_date = form.claned_data['drop_date']
+			                      )
+	return redirect(reverse('account:profile'))
+
 	
 
 

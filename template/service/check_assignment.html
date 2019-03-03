@@ -5,7 +5,7 @@
 {% block content %}
 <h4>Enter your current location to see Nearby Storage Point</h4>
 
-<form method="post">
+<form  method="post">
 	
   {% csrf_token %} 
 
@@ -14,14 +14,5 @@
 	<input type="submit" value="Save">
 </form>
 
-
-<h3>Available Medicine:</h3>
-{% for s in supply %}
-<li>{{s.address}}</li>
-{% endfor %}
-<h3>Nearest Storage Point</h3>
-{% for s in stock %}
-<li>{{s.address}}</li>
-{% endfor %}
 
 {% endblock %}
